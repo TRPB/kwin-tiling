@@ -55,7 +55,7 @@ Item {
     Timer {
         id: timerGeometryChanged
         repeat: false
-        interval: 1
+        interval: 200
         onTriggered: tiling.tiles.updateGeometry();
     }
 
