@@ -95,6 +95,12 @@ function Tile(firstClient, tileIndex) {
         this._currentScreen = firstClient.screen;
 
         /**
+         * On wayland, certain actions cause a segfault if they happen
+         * more than once per frame. Keep track of the last time an
+         * action was run to stop the crash
+        */
+        this._lastAction = 0;
+        /**
          * Stores the current desktop as this is needed as a desktopChanged
          * parameter.
          */
@@ -377,6 +383,16 @@ Tile.prototype.onClientStartUserMovedResized = function(client) {
 };
 
 Tile.prototype.onClientStepUserMovedResized = function(client) {
+    var ms = (new Date).getTime();
+
+    // On wayland if this runs twice in the same frame
+    // it causes a segfault
+    // Don't allow this to run more than once per frame
+    // 16.666 for 60fps, but give some additional time.
+    if (ms <= this._lastAction+25) return;
+
+    this._lastAction = ms;
+
     try {
         if (client.resize) {
             this._resizing = true;
