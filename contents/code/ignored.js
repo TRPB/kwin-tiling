@@ -37,6 +37,10 @@ ignored._blacklist = [
     "wine",
     "yakuake",
     "gcr-prompter",
+    // These classes are used on wayland
+    "org.kde.krunner",
+    "org.kde.kscreenlocker_greet",
+    "pinentry-gtk-2"
 ]
 
 /**
