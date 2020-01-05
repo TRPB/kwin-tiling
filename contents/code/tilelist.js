@@ -74,13 +74,8 @@ function TileList(timer) {
         // - "compositingMode"
         // - "compositingInitialized"
         // change when it is disabled/enabled.
-        if (options.useCompositing) {
-            client.windowShown.connect(function(client) {
-                self.addClient(client);
-            });
-        } else {
-            self.addClient(client);
-        }
+
+        self.addClient(client);
         // NOTE: When a new client is added, activeChanged will be called before it even appears
         // in workspace.clientList(), so we need to keep track of the focus change here as well.
         self.trackFocusChanges(client);
